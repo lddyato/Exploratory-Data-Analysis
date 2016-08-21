@@ -67,7 +67,7 @@ barplot(table(pollution$region), col = 'wheat', main = 'NO. of counties in each 
 # Multiple boxplot
 boxplot(pm25 ~ region, data = pollution, col = 'red')
 # multiple histograms
-par(mfrow = c(2,1), mar = c(4, 4, 2, 1))
+par(mfrow = c(2,1), mar = c(4, 4, 2, 1)) # 2rows and 1 column
 hist(subset(pollution, region == 'east')$pm25, col = 'green')
 hist(subset(pollution, region == 'west')$pm25, col = 'green')
 # Scatter plot

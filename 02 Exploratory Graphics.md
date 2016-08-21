@@ -1,11 +1,14 @@
 #Exploratory Graphics
 **Why do we use graphic in data analysis**
+
 •	To understand data properties
 •	To find partterns in data
 •	To suggest modeling strategies
 •	To ‘debug’ analysis
 •	To communicate results
+
 **Characteristics of exploratory graphics**
+
 •	They are made quickly
 •	A large number are made
 •	The goal is for personal understanding
@@ -24,21 +27,25 @@ head(pollution)
 ```
 
 **Simple Summary of Data**
+
 •	One dimension
  + Five-number summary (Min, 1st Qu., Median, 3rd Qu., Max)
  + Boxplot
  + Histograms
  + Density plot
  + Barplot
+ 
 •	Two dimesions
  + Multiple/overlayed 1-D plots(Lattice/ggplot2)
  + Scatterplot
  + Smooth scatter plot
+ 
 •	More than two dimensions
  + Ovelayed/multiple 2-D plots,coplots
  + Use color, size, shape to add dimesions
  + Spinning plots
  + Actual 3-D plots(not that useful)
+ 
  ```r
 # Five number summary
 summary(pollution$pm25)
@@ -48,7 +55,7 @@ boxplot(pollution$pm25, col = 'blue')
 hist(pollution$pm25, col = 'green')
 rug(pollution$pm25)
 hist(pollution$pm25, col = 'green', breaks = 100)
-rug(pollution$pm25) 
+rug(pollution$pm25) #how many data points are in each bucket and where they lie within the buket
 # Overlayng features
 boxplot(pollution$pm25, col = 'blue')
 abline(h = 12)

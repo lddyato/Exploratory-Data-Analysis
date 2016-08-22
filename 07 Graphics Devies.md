@@ -1,6 +1,6 @@
 
 # Graphics Devies
-## A graphics device is something where you can make a plot 
+A graphics device is something where you can make a plot 
  + A window on your computer(screen device)
  + A PDF file(file device)
  + A PNG or JPEG file(file device)

@@ -1,19 +1,20 @@
 #Exploratory Graphics
+
 **Why do we use graphic in data analysis**
 
-•	To understand data properties
-•	To find partterns in data
-•	To suggest modeling strategies
-•	To ‘debug’ analysis
-•	To communicate results
+* To understand data properties
+* To find partterns in data
+* To suggest modeling strategies
+* To ‘debug’ analysis
+* To communicate results
 
 **Characteristics of exploratory graphics**
 
-•	They are made quickly
-•	A large number are made
-•	The goal is for personal understanding
-•	Axes/legends are generally cleaned up
-•	Colors/size are primarily used for information
+* They are made quickly
+* A large number are made
+* The goal is for personal understanding
+* Axes/legends are generally cleaned up
+* Colors/size are primarily used for information
 
 ```r
 download data set form internet
@@ -28,19 +29,19 @@ head(pollution)
 
 **Simple Summary of Data**
 
-•	One dimension
+* One dimension
  + Five-number summary (Min, 1st Qu., Median, 3rd Qu., Max)
  + Boxplot
  + Histograms
  + Density plot
  + Barplot
  
-•	Two dimesions
+* Two dimesions
  + Multiple/overlayed 1-D plots(Lattice/ggplot2)
  + Scatterplot
  + Smooth scatter plot
  
-•	More than two dimensions
+* More than two dimensions
  + Ovelayed/multiple 2-D plots,coplots
  + Use color, size, shape to add dimesions
  + Spinning plots
@@ -83,8 +84,9 @@ with(subset(pollution, region == 'east'), plot(latitude, pm25), main= 'East')
 with(subset(pollution, region == 'west'), plot(latitude, pm25), main = 'West')
 ```
 **Summary**
-•	Exploratory plots are ‘quick and dirty’
-•	Let you summarize the data(usually graphically) and highly any broad features
-•	Explore basic questions and hypotheses(and perhaps rule them out)
-•	Suggest modeling strategies for the ‘next step’
+
+* Exploratory plots are ‘quick and dirty’
+* Let you summarize the data(usually graphically) and highly any broad features
+* Explore basic questions and hypotheses(and perhaps rule them out)
+* Suggest modeling strategies for the ‘next step’
 

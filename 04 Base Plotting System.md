@@ -1,16 +1,16 @@
 #Base Plotting System
 
-**The core plotting and graphics engine in R is encasulated in the following two packages**
+* The core plotting and graphics engine in R is encasulated in the following two packages
 
-*graphics:* contains plotting functions for the ‘base’ graphing system, plot, boxplot and many others  
+ + `graphics`: contains plotting functions for the ‘base’ graphing system, plot, boxplot and many others  
 
-*grDevices:* contains all the code implementing the various graphics device, including X11, PDF, PostScript, PNG, etc
+ + `grDevices`: contains all the code implementing the various graphics device, including X11, PDF, PostScript, PNG, etc
 
-**The lattice plotting system is implementd using the following packages** 
+* The lattice plotting system is implementd using the following packages
 
-*lattice:* contains code for producing Trellis graphics, which are independent of the ‘base’ graphics system; including functions like `xyplot, bwplot, levelplot`     
+ + `lattice`: contains code for producing Trellis graphics, which are independent of the ‘base’ graphics system; including functions like `xyplot, bwplot, levelplot`     
 
-*grid:* implements a different graphing system independent of the ‘base’ system; the lattice package builds on top of grid; we seldom call functions from grid package directly.
+ + `grid`: implements a different graphing system independent of the ‘base’ system; the lattice package builds on top of grid; we seldom call functions from grid package directly.
 
 ```r
 # Simple Base Graphcs: histogram
@@ -24,7 +24,7 @@ airquality <- transform(airquality, Month = factor(Month))
 boxplot(Ozone ~ Month, airquality, xlab = 'month', ylab = 'Ozone(ppb)')
 boxplot(Ozone~Month, airquality, xlab="Month", ylab="Ozone (ppb)",col.axis="blue",col.lab="red")
 ```
-**Some important Base graphics parametes**
+**Some important Base graphics parametes**  
 
 `pch`: the plotting symbol (default is open circle)    
 `lty`: the line type (default is solid line), can be dashed, dotted, etc   
@@ -43,7 +43,8 @@ boxplot(Ozone~Month, airquality, xlab="Month", ylab="Ozone (ppb)",col.axis="blue
 `mfcol`: number of plot per row, column(plots are filled column-wise)   
 `dev.off or plot.new` reset to the defaults   
 
-**Base Plotting Functions**
+**Base Plotting Functions**   
+
 `plot`   
 `lines`: add lines to a plot, given a vector x values and a vector of y values, just connects the dots   
 `points`: add points to a plot   

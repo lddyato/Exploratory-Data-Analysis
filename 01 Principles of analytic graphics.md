@@ -1,9 +1,3 @@
-* Principles of analysis graphics
-* Exploratory Graphics
-* Plotting
-* Base Plotting System
-* Graphics Devies
-
 #Principles of analysis graphics
 
 **Principle 1: Show corparisons**   

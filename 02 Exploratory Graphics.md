@@ -35,19 +35,7 @@ head(pollution)
  + Histograms
  + Density plot
  + Barplot
- 
-* Two dimesions
- + Multiple/overlayed 1-D plots(Lattice/ggplot2)
- + Scatterplot
- + Smooth scatter plot
- 
-* More than two dimensions
- + Ovelayed/multiple 2-D plots,coplots
- + Use color, size, shape to add dimesions
- + Spinning plots
- + Actual 3-D plots(not that useful)
- 
- ```r
+```r
 # Five number summary
 summary(pollution$pm25)
 # Boxplot
@@ -65,10 +53,17 @@ abline(v = 12, lwd = 2)
 abline(v = median(pollution$pm25), col = 'red')
 # Barplot
 barplot(table(pollution$region), col = 'wheat', main = 'NO. of counties in each region')
+```
+
+* Two dimesions
+ + Multiple/overlayed 1-D plots(Lattice/ggplot2)
+ + Scatterplot
+ + Smooth scatter plot
+```r
 # Multiple boxplot
 boxplot(pm25 ~ region, data = pollution, col = 'red')
 # multiple histograms
-par(mfrow = c(2,1), mar = c(4, 4, 2, 1)) # 2rows and 1 column
+par(mfrow = c(2,1), mar = c(4, 4, 2, 1)) # 2 rows and 1 column
 hist(subset(pollution, region == 'east')$pm25, col = 'green')
 hist(subset(pollution, region == 'west')$pm25, col = 'green')
 # Scatter plot
@@ -83,6 +78,12 @@ par(mfrow = c(1, 2), mar = c(5, 4, 2, 1))
 with(subset(pollution, region == 'east'), plot(latitude, pm25), main= 'East')
 with(subset(pollution, region == 'west'), plot(latitude, pm25), main = 'West')
 ```
+* More than two dimensions
+ + Ovelayed/multiple 2-D plots,coplots
+ + Use color, size, shape to add dimesions
+ + Spinning plots
+ + Actual 3-D plots(not that useful)
+
 **Summary**
 
 * Exploratory plots are ‘quick and dirty’
@@ -90,3 +91,6 @@ with(subset(pollution, region == 'west'), plot(latitude, pm25), main = 'West')
 * Explore basic questions and hypotheses(and perhaps rule them out)
 * Suggest modeling strategies for the ‘next step’
 
+**Further resources**
+* R Graph Gallery
+* R Bloggers

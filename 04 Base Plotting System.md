@@ -11,7 +11,9 @@
  + **lattice**: contains code for producing Trellis graphics, which are independent of the ‘base’ graphics system; including functions like **`xyplot, bwplot, levelplot`**     
 
  + **grid**: implements a different graphing system independent of the ‘base’ system; the lattice package builds on top of grid; we seldom call functions from grid package directly.
+
 ## Base Graphics
+
 Base graphics are used most commonly and are a very powerful system for creating 2-D graphics
 There are two phases to creating a base plot
  + Initializing a new plot

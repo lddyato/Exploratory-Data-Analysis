@@ -11,7 +11,11 @@ the lattice package builds on top of grid;
 ## Lattice Fuction
 * **`xyplot`**: main fuction for creating scatterplots
 ```r
-xyplot(y ~ x |f * g, data)
+xyplot(y ~ x |f * g, data)# f and g could be categorical variables 
+If no data frame or list is passed, then the parent frame is used.
+xyplot(Ozone ~ Wind, data = airquality, pch=8, col = "red", main = "Big Apple Data")
+xyplot(Ozone ~ Wind | as.factor(Month), data=airquality, layout=c(5,1))
+
 ```
 * **`bwplot`**: box and whiskers plots (boxplots)
 * **`histogram`**
@@ -65,7 +69,10 @@ panel.xyplot(x, y, ...) ## First call the default panel function for 'xyplot'
 panel.abline(h = median(y), lty = 2) ## Add a horizontal line at the median
 panel.lmline(x, y, col = 2) ## Overlay a simple linear regression line
 })
+xyplot(price ~ carat | color*cut, data=diamonds, strip=FALSE, pch=20, xlab="Carat", ylab="Price", main="Diamonds are Sparkly!")
+source(pathtofile("plot1.R"), local=TRUE)
 ```
+
 
 ## Many Panel Lattice Plot: Example from MAACS   
 

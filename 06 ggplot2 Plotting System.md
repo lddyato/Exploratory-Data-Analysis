@@ -26,11 +26,11 @@ str(mpg)
 qplot(displ, hwy, data=mpg)
 qplot(displ, hwy, data=mpg, color=drv)
 qplot(displ, hwy, data=mpg, color=drv, geom=c("point", "smooth")) #gray areas surrounding each trend lines indicate the 95% confidence intervals for the lines.
-qplot(y=hwy, data=mpg, color=drv) #specifying the y parameter only, without an x argument, plots the values of the y argument in the order in which they occur in the data.
+qplot(y=hwy, data=mpg, color=drv) #specifying the y parameter only, plots the values of the y argument in the order in which they occur in the data.
 qplot(drv, hwy, data=mpg, geom="boxplot")
 qplot(drv, hwy, data=mpg, geom="boxplot", color=manufacturer)
 qplot(hwy, data=mpg, fill=drv)
-qplot(displ, hwy, data=mpg, facets=.~drv) #1 by 3 array of plots, each is labeled at the top with the factor label (4,f, or r).the . indicates a single row
+qplot(displ, hwy, data=mpg, facets=.~drv) #1 by 3 array of plots, each is labeled at the top with the factor label (4,f, or r).
 qplot(hwy, data=mpg, facets=drv~., binwidth=2)
 qplot(displ, hwy, data=mpg, geom=c("point", "smooth"), facets=.~drv)
 ```

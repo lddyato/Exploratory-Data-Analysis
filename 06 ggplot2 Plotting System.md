@@ -44,6 +44,10 @@ qplot(carat, price, data=diamonds,color=cut)
 qplot(carat, price, data=diamonds,color=cut)+geom_smooth(method="lm")
 qplot(carat, price, data=diamonds,color=cut, facets=.~cut)+geom_smooth(method="lm")
 ```
+```r
+airquality = transform(airquality, Month = factor(Month))
+qplot(Wind, Ozone, data = airquality, facets = . ~ Month)
+```
 
 * ggplot
 ```r

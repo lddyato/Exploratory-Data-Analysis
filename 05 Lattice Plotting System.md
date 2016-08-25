@@ -23,6 +23,7 @@ xyplot(Ozone ~ Wind | as.factor(Month), data=airquality, layout=c(5,1))
 * **`dotplot`**:plot dots on "violin strings"
 * **`splom`**: scatterplot matrix; like pairs in base plotting system
 * **`levelplot, contourplot`**: plotting "image" data
+* **`trellis.par.set()`**: finely control the appearance of all lattice plots
 
 ##Aimple lattice plot
 ```r

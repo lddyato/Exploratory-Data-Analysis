@@ -38,8 +38,15 @@ qplot(hwy, data=mpg, facets=drv~., binwidth=2)
 qplot(displ, hwy, data=mpg, geom=c("point", "smooth"), facets=.~drv)
 ```
 ```r
- qplot(price, data=diamonds)
-
+qplot(price, data=diamonds) # Histogram
+qplot(price, data=diamonds,binwidth=18497/30,fill=cut)
+qplot(price, data=diamonds,geom="density")
+qplot(price, data=diamonds,geom="density", color=cut)
+qplot(carat, price, data=diamonds,shape=cut) # Scatter plot
+qplot(carat, price, data=diamonds,color=cut)
+qplot(carat, price, data=diamonds,color=cut)+geom_smooth(method="lm")
+qplot(carat, price, data=diamonds,color=cut, facets=.~cut)+geom_smooth(method="lm")
+```
 
 * ggplot
 ```r
@@ -69,13 +76,23 @@ g+geom_point()+facet_grid(drv~cyl, margins=TRUE) #  A 4 by 5 plot. The margins a
  g+geom_point()+facet_grid(drv~cyl, margins=TRUE)+geom_smooth(method="lm", se=FALSE, size=2, color="black")
  g+geom_point()+facet_grid(drv~cyl, margins=TRUE)+geom_smooth(method="lm", se=FALSE, size=2, color="black")+labs(x="Displacement",y="Highway Mileage",title="Swirl Rules!")
 
-
-
-
 ```
 theme(): theme_gray() and theme_bw()
 
+```r
+ g <- ggplot(diamonds, aes(depth, price))
+summary(g)
+g+geom_point(alpha=1/3)
+cutpoints <- quantile(diamonds$carat,seq(0,1,length=4),na.rm=TRUE)
+cutpoints
+#       0% 33.33333% 66.66667%      100% 
+#     0.20      0.50      1.00      5.01 
+diamonds$car2 <- cut(diamonds$carat, cutpoints)
+g <- ggplot(diamonds, aes(depth, price))
+g+geom_point(alpha=1/3)+facet_grid(cut ~ car2)
+g+geom_point(alpha=1/3)+facet_grid(cut ~ car2)+geom_smooth(method="lm", size=3, color="pink")
+ggplot(diamonds,aes(carat,price))+geom_boxplot()+facet_grid(.~cut) 
+``` 
+ 
+ 
 
-
-
-* ggplot

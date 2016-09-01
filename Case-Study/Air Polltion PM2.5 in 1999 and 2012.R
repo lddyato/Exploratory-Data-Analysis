@@ -24,6 +24,7 @@
 > print(cnames)
 [1] "# RD|Action Code|State Code|County Code|Site ID|Parameter|POC|Sample Duration|Unit|Method|Date|Start Time|Sample Value|Null Data Code|Sampling Frequency|Monitor Protocol (MP) ID|Qualifier - 1|Qualifier - 2|Qualifier - 3|Qualifier - 4|Qualifier - 5|Qualifier - 6|Qualifier - 7|Qualifier - 8|Qualifier - 9|Qualifier - 10|Alternate Method Detectable Limit|Uncertainty"
 > cnames <- strsplit(cnames, "|", fixed = TRUE)
+# The variable cnames now holds a list of the column headings
 > print(cnames)
 [[1]]
  [1] "# RD"                              "Action Code"                       "State Code"                       
@@ -96,13 +97,16 @@
 > summary(x0)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
    0.00    7.20   11.50   13.74   17.90  157.10   13217 
-> mean(is.na(x0))  ## Are missing values important here?
-[1] 0.1125608
+> mean(is.na(x0))  
+[1] 0.1125608  # a little over 11% of the 117000+ are missing
 > summary(x1)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
  -10.00    4.00    7.63    9.14   12.00  909.00   73133 
-> mean(is.na(x1))  ## Are missing values important here?
-[1] 0.05607125
+## Note that the Max has increased from 157 in 1999 to 909 in 2012. This is quite high and might reflect an error in the table or malfunctions in some monitors.
+
+> mean(is.na(x1))  
+[1] 0.05607125  ## only 5.6% of the particulate matter measurements are missing.That's about half the percentage as in 1999.
+
 > ## Make a boxplot of both 1999 and 2012
 > boxplot(x0, x1)
 > boxplot(log10(x0), log10(x1))
@@ -122,6 +126,9 @@ Warning messages:
 [1] 26474
 > mean(negative, na.rm = T)
 [1] 0.0215034
+## just 2% of the x1 values are negative.  Perhaps that's a small enough percentage that we can ignore them. 
+
+## Before we ignore them, though, let's see if they occur during certain times of the year.
 > dates <- pm1$Date
 > str(dates)
  int [1:1304287] 20120101 20120104 20120107 20120110 20120113 20120116 20120119 20120122 20120125 20120128 ...
@@ -129,6 +136,11 @@ Warning messages:
 > str(dates)
  Date[1:1304287], format: "2012-01-01" "2012-01-04" "2012-01-07" "2012-01-10" "2012-01-13" "2012-01-16" "2012-01-19" "2012-01-22" ...
 > hist(dates, "month")  ## Check what's going on in months 1--6
+> hist(dates[negative], "month") ## plot a histogram of the months when the particulate matter measurements are negative. 
+## We see the bulk of the negative measurements were taken in the winter months, with a spike in May. 
+## Not many of these negative measurements occurred in summer months. We can take a guess that because particulate measures tend to be low in winter and high in summer, coupled with the
+## fact that higher densities are easier to measure, that measurement errors occurred when the values were low. For now we'll attribute these negative
+## measurements to errors. Also, since they account for only 2% of the 2012 data, we'll ignore them.
 
 ## Plot a subset for one monitor at both times
 
@@ -319,6 +331,16 @@ Warning messages:
 > ## Connect lines
 > par(mfrow = c(1, 1))
 > with(mrg, plot(rep(1, 52), mrg[, 2], xlim = c(.5, 2.5)))
+##  rep(1,52) tells the plot routine that the x coordinates for all 52 points are 1. 
+## The second argument is the second column of mrg or mrg[,2] which holds the 1999 data. 
 > with(mrg, points(rep(2, 52), mrg[, 3]))
-> segments(rep(1, 52), mrg[, 2], rep(2, 52), mrg[, 3])
+> segments(rep(1, 52), mrg[, 2], rep(2, 52), mrg[, 3]) 
+## connect the dots.The first 2 are the x and y coordinates of the 1999 points and the last 2 are the x and y coordinates of the 2012 points.
+> mrg[mrg$mean.x < mrg$mean.y, ] ## see which states had higher means in 2012 than in 1999.
+   state    mean.x    mean.y
+6     15  4.861821  8.749336
+23    31  9.167770  9.207489
+27    35  6.511285  8.089755
+33    40 10.657617 10.849870
+
 

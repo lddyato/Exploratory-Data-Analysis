@@ -161,8 +161,6 @@ Warning messages:
  ## Find how many observations available at each monitor
 > pm0$county.site <- with(pm0, paste(County.Code, Site.ID, sep = "."))
 > pm1$county.site <- with(pm1, paste(County.Code, Site.ID, sep = "."))
-> str(county.site)
-Error in str(county.site) : 找不到对象'county.site'
 > str(pm0$county.site)
  chr [1:117421] "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" "27.1" ...
 > str(pm1$county.site)

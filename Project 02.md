@@ -69,3 +69,36 @@ For each plot you should
 * Upload the PNG file on the Assignment submission page
 * Copy and paste the R code from the corresponding R file into the text box at the appropriate point in the peer assessment.
 
+```r
+if(!file.exists('data4')) dir.create('data4')
+fileUrl <- 'https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip'
+download.file(fileUrl, destfile = './data4/Nei_data.zip')
+unzip('./data4/Nei_data.zip', exdir = './data4')
+
+# read data into R
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
+dim(NEI)
+head(NEI)
+str(NEI)
+
+# Plot1.png
+total <- aggregate(Emissions ~ year, NEI, sum)
+head(total)
+png('plot1.png', width = 480, height = 480, units='px')
+barplot(height = (total$Emissions)/1000, names.arg = total$year, xlab="years", ylab=expression('total PM'[2.5]*' emission (kilotons)'),main=expression('Total PM'[2.5]*' emissions from 1999 to 2008'))
+dev.off()
+
+# Plot2.png
+subNEI <- subset(NEI, fips == "24510")
+totmaryland <- aggregate(Emissions ~ year, subNEI, sum)
+png('plot2.png', width = 480, height = 480, units='px')
+barplot(height = totmaryland$Emissions, names.arg = totmaryland$year, xlab="years", ylab=expression('total PM'[2.5]*' emission in Maryland (Tons)'),main=expression('Total PM'[2.5]*' emissions from 1999 to 2008'))
+dev.off()
+
+#Plot3.png
+tottype <- aggregate(Emissions ~ year + type, subNEI, sum)
+head(tottype)
+library(ggplot2)
+g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
+```

@@ -267,6 +267,17 @@ g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
 > dev.off()
 
 #plot6.png
+> NEIvehbt <- subset(NEI, SCC %in% SCCveh$SCC & fips == "24510")
+> head(NEIvehbt)
+        fips        SCC Pollutant Emissions    type year
+114470 24510 220100123B  PM25-PRI      7.38 ON-ROAD 1999
+114472 24510 220100123T  PM25-PRI      2.78 ON-ROAD 1999
+114477 24510 220100123X  PM25-PRI     11.76 ON-ROAD 1999
+114479 24510 220100125B  PM25-PRI      3.50 ON-ROAD 1999
+114481 24510 220100125T  PM25-PRI      1.32 ON-ROAD 1999
+114486 24510 220100125X  PM25-PRI      5.58 ON-ROAD 1999
+> dim(NEIvehbt)
+[1] 1119    6
 > NEIvehla <- subset(NEI, SCC %in% SCCveh$SCC & fips == "06037")
 > head(NEIvehla)
          fips        SCC Pollutant Emissions    type year
@@ -278,13 +289,25 @@ g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
 1541059 06037 2201001210  PM25-PRI      1.71 ON-ROAD 1999
 > dim(NEIvehla)
 [1] 980   6
-> totvehla <- aggregate(Emissions ~ year, NEIvehla, sum)
-> totvehla
+> NEIveh <- rbind(NEIvehbt, NEIvehla)
+> head(NEIveh)
+        fips        SCC Pollutant Emissions    type year
+114470 24510 220100123B  PM25-PRI      7.38 ON-ROAD 1999
+114472 24510 220100123T  PM25-PRI      2.78 ON-ROAD 1999
+114477 24510 220100123X  PM25-PRI     11.76 ON-ROAD 1999
+114479 24510 220100125B  PM25-PRI      3.50 ON-ROAD 1999
+114481 24510 220100125T  PM25-PRI      1.32 ON-ROAD 1999
+114486 24510 220100125X  PM25-PRI      5.58 ON-ROAD 1999
+> dim(NEIveh)
+[1] 2099    6
+> totveh <- aggregate(Emissions ~ year, NEIveh, sum)
+> totveh
   year Emissions
-1 1999  3931.120
-2 2002  4274.030
-3 2005  4601.415
-4 2008  4101.321
+1 1999  4277.940
+2 2002  4408.339
+3 2005  4731.845
+4 2008  4189.596
+png("plot6.png", width = 480, height = 480, units='px')
 
 
 

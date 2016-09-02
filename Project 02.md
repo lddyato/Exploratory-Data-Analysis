@@ -300,15 +300,21 @@ g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
 114486 24510 220100125X  PM25-PRI      5.58 ON-ROAD 1999
 > dim(NEIveh)
 [1] 2099    6
-> totveh <- aggregate(Emissions ~ year, NEIveh, sum)
+> totveh <- aggregate(Emissions ~ year + fips, NEIveh, sum)
 > totveh
-  year Emissions
-1 1999  4277.940
-2 2002  4408.339
-3 2005  4731.845
-4 2008  4189.596
+  year  fips   Emissions
+1 1999 06037 47103.19200
+2 2002 06037 26968.79453
+3 2005 06037 22939.78027
+4 2008 06037 32135.48171
+5 1999 24510   346.82000
+6 2002 24510   134.30882
+7 2005 24510   130.43038
+8 2008 24510    88.27546
 png("plot6.png", width = 480, height = 480, units='px')
-
+library(ggplot2)
+ggplot(totveh, aes(x=factor(year), y=Emissions, fill=fips)) + geom_bar(position = "dodge", stat = "identity") + xlab("year") + ylab(expression('Total PM'[2.5]*" Emissions (Tons)")) + ggtitle("Total Emissions in Baltimore City from Motor vehicle sources from 1999 to 2008")
+dev.off()
 
 
 

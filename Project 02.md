@@ -76,29 +76,174 @@ download.file(fileUrl, destfile = './data4/Nei_data.zip')
 unzip('./data4/Nei_data.zip', exdir = './data4')
 
 # read data into R
-NEI <- readRDS("summarySCC_PM25.rds")
-SCC <- readRDS("Source_Classification_Code.rds")
-dim(NEI)
-head(NEI)
-str(NEI)
+> NEI <- readRDS("summarySCC_PM25.rds")
+> SCC <- readRDS("Source_Classification_Code.rds")
+> dim(NEI)
+[1] 6497651       6
+> head(NEI)
+    fips      SCC Pollutant Emissions  type year
+4  09001 10100401  PM25-PRI    15.714 POINT 1999
+8  09001 10100404  PM25-PRI   234.178 POINT 1999
+12 09001 10100501  PM25-PRI     0.128 POINT 1999
+16 09001 10200401  PM25-PRI     2.036 POINT 1999
+20 09001 10200504  PM25-PRI     0.388 POINT 1999
+24 09001 10200602  PM25-PRI     1.490 POINT 1999
+> str(NEI)
+'data.frame':   6497651 obs. of  6 variables:
+ $ fips     : chr  "09001" "09001" "09001" "09001" ...
+ $ SCC      : chr  "10100401" "10100404" "10100501" "10200401" ...
+ $ Pollutant: chr  "PM25-PRI" "PM25-PRI" "PM25-PRI" "PM25-PRI" ...
+ $ Emissions: num  15.714 234.178 0.128 2.036 0.388 ...
+ $ type     : chr  "POINT" "POINT" "POINT" "POINT" ...
+ $ year     : int  1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 ...
 
 # Plot1.png
-total <- aggregate(Emissions ~ year, NEI, sum)
-head(total)
-png('plot1.png', width = 480, height = 480, units='px')
-barplot(height = (total$Emissions)/1000, names.arg = total$year, xlab="years", ylab=expression('total PM'[2.5]*' emission (kilotons)'),main=expression('Total PM'[2.5]*' emissions from 1999 to 2008'))
-dev.off()
+> total <- aggregate(Emissions ~ year, NEI, sum)
+> total
+  year Emissions
+1 1999   7332967
+2 2002   5635780
+3 2005   5454703
+4 2008   3464206
+> png('plot1.png', width = 480, height = 480, units='px')
+> barplot(height = (total$Emissions)/1000, names.arg = total$year, xlab="years", ylab=expression('total PM'[2.5]*' emission (kilotons)'),main=expression('Total PM'[2.5]*' emissions from 1999 to 2008'))
+> dev.off()
+null device 
+          1 
 
 # Plot2.png
-subNEI <- subset(NEI, fips == "24510")
-totmaryland <- aggregate(Emissions ~ year, subNEI, sum)
-png('plot2.png', width = 480, height = 480, units='px')
-barplot(height = totmaryland$Emissions, names.arg = totmaryland$year, xlab="years", ylab=expression('total PM'[2.5]*' emission in Maryland (Tons)'),main=expression('Total PM'[2.5]*' emissions from 1999 to 2008'))
-dev.off()
+> subNEI <- subset(NEI, fips == "24510")
+> totmaryland <- aggregate(Emissions ~ year, subNEI, sum)
 
+> head(subNEI)
+        fips      SCC Pollutant Emissions  type year
+114288 24510 10100601  PM25-PRI     6.532 POINT 1999
+114296 24510 10200601  PM25-PRI    78.880 POINT 1999
+114300 24510 10200602  PM25-PRI     0.920 POINT 1999
+114308 24510 30100699  PM25-PRI    10.376 POINT 1999
+114325 24510 30183001  PM25-PRI    10.859 POINT 1999
+114329 24510 30201599  PM25-PRI    83.025 POINT 1999
+> head(totmaryland)
+  year Emissions
+1 1999  3274.180
+2 2002  2453.916
+3 2005  3091.354
+4 2008  1862.282
+> png('plot2.png', width = 480, height = 480, units='px')
+> barplot(height = totmaryland$Emissions, names.arg = totmaryland$year, xlab="years", ylab=expression('total PM'[2.5]*' emission in Maryland (Tons)'),main=expression('Total PM'[2.5]*' emissions from 1999 to 2008'))
+> dev.off()
+null device 
+          1 
+          
 #Plot3.png
-tottype <- aggregate(Emissions ~ year + type, subNEI, sum)
-head(tottype)
-library(ggplot2)
+> tottype <- aggregate(Emissions ~ year + type, subNEI, sum)
+> tottype
+   year     type  Emissions
+1  1999 NON-ROAD  522.94000
+2  2002 NON-ROAD  240.84692
+3  2005 NON-ROAD  248.93369
+4  2008 NON-ROAD   55.82356
+5  1999 NONPOINT 2107.62500
+6  2002 NONPOINT 1509.50000
+7  2005 NONPOINT 1509.50000
+8  2008 NONPOINT 1373.20731
+9  1999  ON-ROAD  346.82000
+10 2002  ON-ROAD  134.30882
+11 2005  ON-ROAD  130.43038
+12 2008  ON-ROAD   88.27546
+13 1999    POINT  296.79500
+14 2002    POINT  569.26000
+15 2005    POINT 1202.49000
+16 2008    POINT  344.97518
+> library(ggplot2)
+Warning message:
+package ‘ggplot2’ was built under R version 3.2.5 
 g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
+> png('plot3.png')
+# > ggplot(tottype, aes(x=factor(year), y=Emissions, fill=type)) + geom_bar(position = "dodge", stat = "identity")
+> ggplot(tottype, aes(x=factor(year), y=Emissions, fill=type)) + geom_bar(stat = "identity") + facet_grid(.~type)
+> dev.off()
+
+# plot4.png
+> str(SCC)
+'data.frame':   11717 obs. of  15 variables:
+ $ SCC                : Factor w/ 11717 levels "10100101","10100102",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ Data.Category      : Factor w/ 6 levels "Biogenic","Event",..: 6 6 6 6 6 6 6 6 6 6 ...
+ $ Short.Name         : Factor w/ 11238 levels "","2,4-D Salts and Esters Prod /Process Vents, 2,4-D Recovery: Filtration",..: 3283 3284 3293 3291 3290 3294 3295 3296 3292 3289 ...
+ $ EI.Sector          : Factor w/ 59 levels "Agriculture - Crops & Livestock Dust",..: 18 18 18 18 18 18 18 18 18 18 ...
+ $ Option.Group       : Factor w/ 25 levels "","C/I Kerosene",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Option.Set         : Factor w/ 18 levels "","A","B","B1A",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ SCC.Level.One      : Factor w/ 17 levels "Brick Kilns",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ SCC.Level.Two      : Factor w/ 146 levels "","Agricultural Chemicals Production",..: 32 32 32 32 32 32 32 32 32 32 ...
+ $ SCC.Level.Three    : Factor w/ 1061 levels "","100% Biosolids (e.g., sewage sludge, manure, mixtures of these matls)",..: 88 88 156 156 156 156 156 156 156 156 ...
+ $ SCC.Level.Four     : Factor w/ 6084 levels "","(NH4)2 SO4 Acid Bath System and Evaporator",..: 4455 5583 4466 4458 1341 5246 5584 5983 4461 776 ...
+ $ Map.To             : num  NA NA NA NA NA NA NA NA NA NA ...
+ $ Last.Inventory.Year: int  NA NA NA NA NA NA NA NA NA NA ...
+ $ Created_Date       : Factor w/ 57 levels "","1/27/2000 0:00:00",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Revised_Date       : Factor w/ 44 levels "","1/27/2000 0:00:00",..: 1 1 1 1 1 1 1 1 1 1 ...
+ $ Usage.Notes        : Factor w/ 21 levels ""," ","includes bleaching towers, washer hoods, filtrate t
+
+> coal<- grep("coal", SCC$EI.Sector, value=TRUE, ignore.case=TRUE)
+> head(coal)
+[1] "Fuel Comb - Electric Generation - Coal"
+[2] "Fuel Comb - Electric Generation - Coal"
+[3] "Fuel Comb - Electric Generation - Coal"
+[4] "Fuel Comb - Electric Generation - Coal"
+[5] "Fuel Comb - Electric Generation - Coal"
+[6] "Fuel Comb - Electric Generation - Coal"
+> length(coal)
+[1] 99
+> subSCC <- subset(SCC, EI.Sector %in% coal, select = SCC) 
+> head(subSCC)
+       SCC
+1 10100101
+2 10100102
+3 10100201
+4 10100202
+5 10100203
+6 10100204
+> subNEIcoal <- subset(NEI, SCC %in%  subSCC$SCC)
+> head(subNEIcoal)
+       fips        SCC Pollutant Emissions     type year
+9979  09011   10100217  PM25-PRI   479.907    POINT 1999
+15882 23001 2102001000  PM25-PRI     0.054 NONPOINT 1999
+15892 23001 2103002000  PM25-PRI     0.231 NONPOINT 1999
+17790 23003 2102001000  PM25-PRI     0.032 NONPOINT 1999
+17800 23003 2103002000  PM25-PRI     0.194 NONPOINT 1999
+19504 23005   10200202  PM25-PRI     0.119    POINT 1999
+> totcoal <- aggregate(Emissions ~ year, subNEIcoal, sum)
+> totcoal
+  year Emissions
+1 1999  572126.5
+2 2002  546789.2
+3 2005  552881.5
+4 2008  343432.2
+> library(ggplot2)
+> png("plot4.png", width = 480, height = 480, units='px')
+> ggplot(totcoal, aes(factor(year), Emissions/1000)) + geom_bar(stat = "identity") + xlab("year") + ylab(expression('Total PM'[2.5]*" Emissions (Kilotons)")) + ggtitle("Total Emissions from coal from 1999 to 2008")
+> dev.off()
+
+#plot5.png
+> motor <- grep("motor", SCC$EI.Sector, value=TRUE, ignore.case=TRUE)
+> head(motor)
+> subSCC <- subset(SCC, EI.Sector %in% motor, select = SCC) 
+> head(subSCC)
+> subNEImotorBT <- subset(NEI, SCC %in%  subSCC$SCC & fips == "24510")
+> head(subNEImotorBT)
+> totmotorBT <- aggregate(Emissions ~ year, subNEImotorBT, sum)
+> totmotorBT
+> png("plot5.png", width = 480, height = 480, units='px')
+> ggplot(totmotorBT, aes(factor(year), Emissions)) + geom_bar(stat = "identity") + xlab("year") + ylab(expression("Total PM'[2.5]*'Emissions")) + ggtitle("Total Emissions in Baltimore City from Motor from 1999 to 2008")
+> dev.off()
+
+#plot6.png
+
+
+
+
+
+
+
+
+
 ```

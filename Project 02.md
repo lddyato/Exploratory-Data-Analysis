@@ -224,19 +224,67 @@ g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
 > dev.off()
 
 #plot5.png
-> motor <- grep("motor", SCC$EI.Sector, value=TRUE, ignore.case=TRUE)
-> head(motor)
-> subSCC <- subset(SCC, EI.Sector %in% motor, select = SCC) 
-> head(subSCC)
-> subNEImotorBT <- subset(NEI, SCC %in%  subSCC$SCC & fips == "24510")
-> head(subNEImotorBT)
-> totmotorBT <- aggregate(Emissions ~ year, subNEImotorBT, sum)
-> totmotorBT
+> veh <- grep("vehicle", SCC$EI.Sector, value=TRUE, ignore.case=TRUE)
+> head(veh)
+[1] "Mobile - On-Road Gasoline Light Duty Vehicles"
+[2] "Mobile - On-Road Gasoline Light Duty Vehicles"
+[3] "Mobile - On-Road Gasoline Light Duty Vehicles"
+[4] "Mobile - On-Road Gasoline Light Duty Vehicles"
+[5] "Mobile - On-Road Gasoline Light Duty Vehicles"
+[6] "Mobile - On-Road Gasoline Light Duty Vehicles"
+> length(veh)
+[1] 1138
+> SCCveh <- subset(SCC, EI.Sector %in% veh, select = SCC) 
+> head(SCCveh)
+           SCC
+542 2201001000
+543 2201001110
+544 2201001111
+545 2201001112
+546 2201001113
+547 2201001114
+> NEIvehbt <- subset(NEI, SCC %in% SCCveh$SCC & fips == "24510")
+> head(NEIvehbt)
+        fips        SCC Pollutant Emissions    type year
+114470 24510 220100123B  PM25-PRI      7.38 ON-ROAD 1999
+114472 24510 220100123T  PM25-PRI      2.78 ON-ROAD 1999
+114477 24510 220100123X  PM25-PRI     11.76 ON-ROAD 1999
+114479 24510 220100125B  PM25-PRI      3.50 ON-ROAD 1999
+114481 24510 220100125T  PM25-PRI      1.32 ON-ROAD 1999
+114486 24510 220100125X  PM25-PRI      5.58 ON-ROAD 1999
+> dim(NEIvehbt)
+[1] 1119    6
+> totvehbt <- aggregate(Emissions ~ year, NEIvehbt, sum)
+> totvehbt
+  year Emissions
+1 1999 346.82000
+2 2002 134.30882
+3 2005 130.43038
+4 2008  88.27546
+
 > png("plot5.png", width = 480, height = 480, units='px')
 > ggplot(totmotorBT, aes(factor(year), Emissions)) + geom_bar(stat = "identity") + xlab("year") + ylab(expression("Total PM'[2.5]*'Emissions")) + ggtitle("Total Emissions in Baltimore City from Motor from 1999 to 2008")
 > dev.off()
 
 #plot6.png
+> NEIvehla <- subset(NEI, SCC %in% SCCveh$SCC & fips == "06037")
+> head(NEIvehla)
+         fips        SCC Pollutant Emissions    type year
+1541039 06037 2201001110  PM25-PRI      4.93 ON-ROAD 1999
+1541043 06037 2201001130  PM25-PRI      8.22 ON-ROAD 1999
+1541047 06037 2201001150  PM25-PRI      4.70 ON-ROAD 1999
+1541051 06037 2201001170  PM25-PRI      4.62 ON-ROAD 1999
+1541055 06037 2201001190  PM25-PRI      1.98 ON-ROAD 1999
+1541059 06037 2201001210  PM25-PRI      1.71 ON-ROAD 1999
+> dim(NEIvehla)
+[1] 980   6
+> totvehla <- aggregate(Emissions ~ year, NEIvehla, sum)
+> totvehla
+  year Emissions
+1 1999  3931.120
+2 2002  4274.030
+3 2005  4601.415
+4 2008  4101.321
 
 
 

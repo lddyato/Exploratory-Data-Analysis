@@ -40,6 +40,9 @@ For each year, the table contains number of tons of PM2.5 emitted from a specifi
 You can read each of the two files using the readRDS() function in R. For example, reading in each file can be done with the following code:
 
 ```r
+install.packages("ggplot2")
+library(ggplot2)
+
 ## This first line will likely take a few seconds. Be patient!
 NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
@@ -302,25 +305,28 @@ g <- ggplot(subNEI, aes(year, Emissions, color = type)) + geom_line()
 [1] 2099    6
 > totveh <- aggregate(Emissions ~ year + fips, NEIveh, sum)
 > totveh
-  year  fips   Emissions
-1 1999 06037 47103.19200
-2 2002 06037 26968.79453
-3 2005 06037 22939.78027
-4 2008 06037 32135.48171
-5 1999 24510   346.82000
-6 2002 24510   134.30882
-7 2005 24510   130.43038
-8 2008 24510    88.27546
-png("plot6.png", width = 480, height = 480, units='px')
-library(ggplot2)
-ggplot(totveh, aes(x=factor(year), y=Emissions, fill=fips)) + geom_bar(position = "dodge", stat = "identity") + xlab("year") + ylab(expression('Total PM'[2.5]*" Emissions (Tons)")) + ggtitle("Total Emissions in Baltimore City from Motor vehicle sources from 1999 to 2008")
-dev.off()
-
-
-
-
-
-
-
-
+  year  fips  Emissions
+1 1999 06037 3931.12000
+2 2002 06037 4274.03020
+3 2005 06037 4601.41493
+4 2008 06037 4101.32100
+5 1999 24510  346.82000
+6 2002 24510  134.30882
+7 2005 24510  130.43038
+8 2008 24510   88.27546
+> totveh$fips[totveh$fips == "06037"] <- "Baltimore, MD"
+> totveh$fips[totveh$fips == "24510"] <- "Los Angeles, CA"
+> totveh
+  year            fips  Emissions
+1 1999   Baltimore, MD 3931.12000
+2 2002   Baltimore, MD 4274.03020
+3 2005   Baltimore, MD 4601.41493
+4 2008   Baltimore, MD 4101.32100
+5 1999 Los Angeles, CA  346.82000
+6 2002 Los Angeles, CA  134.30882
+7 2005 Los Angeles, CA  130.43038
+8 2008 Los Angeles, CA   88.27546
+> png("plot6.png", width = 480, height = 480, units='px')
+> ggplot(totveh, aes(x=factor(year), y=Emissions, fill=fips)) + geom_bar(position = "dodge", stat = "identity") + xlab("year") + ylab(expression('Total PM'[2.5]*" Emissions (Tons)")) + ggtitle("Total Emissions in Baltimore City from Motor vehicle sources from 1999 to 2008")
+> dev.off()
 ```
